@@ -28,9 +28,9 @@ function SettingsSection({
 	children: ReactNode;
 }) {
 	return (
-		<div className="sv-panel-section">
-			<div className="sv-panel-section-title">{title.toUpperCase()}</div>
-			<div className="sv-panel-section-content">{children}</div>
+		<div className="stock-view-panel-section">
+			<div className="stock-view-panel-section-title">{title.toUpperCase()}</div>
+			<div className="stock-view-panel-section-content">{children}</div>
 		</div>
 	);
 }
@@ -121,12 +121,12 @@ function SettingsPanel({
 
 	return (
 		<div
-			className="sv-settings-panel"
+			className="stock-view-settings-panel"
 			style={{ display: visible ? "flex" : "none" }}
 		>
-			<div className="sv-panel-header">
-				<span className="sv-panel-title">Widget settings</span>
-				<div className="sv-panel-header-btns">	
+			<div className="stock-view-panel-header">
+				<span className="stock-view-panel-title">Widget settings</span>
+				<div className="stock-view-panel-header-btns">	
 					<button
 						type="button"
 						aria-label="Restore defaults"
@@ -147,7 +147,7 @@ function SettingsPanel({
 				</div>
 			</div>
 
-			<div className="sv-panel-body">
+			<div className="stock-view-panel-body">
 				<SettingsSection title="Widget">
 					<select
 						value={state.widget}
@@ -172,8 +172,8 @@ function SettingsPanel({
 				)}
 
 				<SettingsSection title="Appearance">
-					<div className="sv-panel-row">
-						<span className="sv-row-label">Theme</span>
+					<div className="stock-view-panel-row">
+						<span className="stock-view-row-label">Theme</span>
 						<select
 							value={state.theme}
 							onChange={(e) => onThemeChange(e.target.value as WidgetTheme)}
@@ -187,8 +187,8 @@ function SettingsPanel({
 				{def.filters.length > 0 && (
 					<SettingsSection title="Filters">
 						{def.filters.map((filter) => (
-							<div key={filter.id} className="sv-panel-row">
-								<span className="sv-row-label">{filter.label}</span>
+							<div key={filter.id} className="stock-view-panel-row">
+								<span className="stock-view-row-label">{filter.label}</span>
 								<FilterControl
 									filter={filter}
 									value={state.filters[filter.id] ?? filter.defaultValue}
@@ -258,18 +258,18 @@ const StockViewUI = forwardRef<StockViewUIHandle, StockViewUIProps>(
 		let chartContent: ReactNode;
 		if (loadStatus === "loading") {
 			chartContent = (
-				<div className="sv-status-msg">Loading widget…</div>
+				<div className="stock-view-status-msg">Loading widget…</div>
 			);
 		} else if (loadStatus === "offline") {
 			chartContent = (
-				<div className="sv-status-msg sv-status-error">
+				<div className="stock-view-status-msg sv-status-error">
 					Could not reach the TradingView service. Check your internet
 					connection and try reloading.
 				</div>
 			);
 		} else if (loadStatus === "widget-error") {
 			chartContent = (
-				<div className="sv-status-msg sv-status-error">
+				<div className="stock-view-status-msg sv-status-error">
 					Could not load the widget. Try reloading.
 				</div>
 			);
@@ -285,8 +285,8 @@ const StockViewUI = forwardRef<StockViewUIHandle, StockViewUIProps>(
 
 		return (
 			<>
-				<div className="sv-chart-area">
-					<div className="sv-chart-toolbar">
+				<div className="stock-view-chart-area">
+					<div className="stock-view-chart-toolbar">
 						<button
 							type="button"
 							aria-label="Open settings"
@@ -304,7 +304,7 @@ const StockViewUI = forwardRef<StockViewUIHandle, StockViewUIProps>(
 							<RefreshCcw size={16} />
 						</button>
 					</div>
-					<div className="sv-chart-container">{chartContent}</div>
+					<div className="stock-view-chart-container">{chartContent}</div>
 				</div>
 	
 				<SettingsPanel
