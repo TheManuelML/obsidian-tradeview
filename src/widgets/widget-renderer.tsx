@@ -7,27 +7,29 @@ interface Props {
 	onError: () => void;
 }
 
-function buildSrcdoc(scriptUrl: string, config: Record<string, unknown>): string {
-	// Escape </script> sequences so they don't break the surrounding HTML.
-	const safeConfig = JSON.stringify(config).replace(/<\//g, "<\\/");
-	return `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-  html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
-  *, *::before, *::after { box-sizing: border-box; }
-  .tradingview-widget-container { height: 100%; width: 100%; }
-  .tradingview-widget-container__widget { height: 100%; width: 100%; }
-</style>
-</head>
-<body>
-<div class="tradingview-widget-container">
-  <div class="tradingview-widget-container__widget"></div>
-  <script type="text/javascript" src="${scriptUrl}">${safeConfig}</script>
-</div>
-</body>
-</html>`;
+const EMBED_BASE = "https://s.tradingview.com/embed-widget/";
+
+function extractSlug(scriptUrl: string): string {
+	// Maps "…/embed-widget-stock-heatmap.js" → "stock-heatmap".
+	const match = scriptUrl.match(/embed-widget-([^/]+?)\.js(?:[?#].*)?$/);
+	return match?.[1] ?? "";
+}
+
+function buildEmbedUrl(scriptUrl: string, config: Record<string, unknown>): string {
+	const slug = extractSlug(scriptUrl);
+	const params = new URLSearchParams();
+
+	const locale = typeof config.locale === "string" ? config.locale : "en";
+	params.set("locale", locale);
+
+	// Some widgets (e.g. symbol-info) require `symbol` as a query param to
+	// reliably honor the configured ticker.
+	if (typeof config.symbol === "string" && config.symbol) {
+		params.set("symbol", config.symbol);
+	}
+
+	const hash = encodeURIComponent(JSON.stringify(config));
+	return `${EMBED_BASE}${slug}/?${params.toString()}#${hash}`;
 }
 
 function stateKey(state: StockViewState): string {
@@ -42,7 +44,7 @@ export default function TradingViewWidget({ state, onLoad, onError }: Props) {
 		<iframe
 			key={stateKey(state)}
 			className="stock-view-iframe"
-			srcDoc={buildSrcdoc(def.scriptUrl, config)}
+			src={buildEmbedUrl(def.scriptUrl, config)}
 			onLoad={onLoad}
 			onError={onError}
 			sandbox="allow-scripts allow-same-origin allow-popups"
