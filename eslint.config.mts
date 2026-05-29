@@ -23,6 +23,7 @@ export default tseslint.config(
 	},
 	...obsidianmd.configs.recommended,
 	{
+		plugins: { obsidianmd },
 		rules: {
 			// Extend the recommended sentence-case rule to recognise project-specific
 			// proper nouns that the plugin's default lists don't include.
