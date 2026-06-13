@@ -1,7 +1,7 @@
 {
 	"id": "tradingview-widget",
 	"name": "TradingView Widget",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "0.15.0",
 	"description": "Open a customizable stock view that displays charts and widgets (heatmaps, tickers, symbol summaries, advanced charts, and more) powered by TradingView's free embeddable widgets.",
 	"author": "Manuel Magaña López",
