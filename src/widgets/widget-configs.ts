@@ -50,14 +50,11 @@ const intervalFilter: FilterDef = {
 const stockMarketDataSources: FilterOption[] = [
 	{ value: "SPX500", label: "S&P 500" },
 	{ value: "NASDAQ100", label: "NASDAQ 100" },
-	{ value: "DOWJONES", label: "Dow Jones" },
-	{ value: "FTSE100", label: "FTSE 100" },
-	{ value: "DAX40", label: "DAX 40" },
-	{ value: "NIKKEI400", label: "Nikkei 400" },
+	{ value: "NASDAQCOMPOSITE", label: "NASDAQ Composite" },
+	{ value: "DJDJI", label: "Dow Jones" },
+	{ value: "DAX", label: "DAX" },
+	{ value: "ASX200", label: "ASX 200" },
 	{ value: "AllUSA", label: "All USA" },
-	{ value: "AllAmerica", label: "All Americas" },
-	{ value: "AllEurope", label: "All Europe" },
-	{ value: "AllAsia", label: "All Asia" },
 ];
 
 const blockSizeOptions: FilterOption[] = [
